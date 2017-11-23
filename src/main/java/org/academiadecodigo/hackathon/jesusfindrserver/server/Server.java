@@ -24,10 +24,13 @@ public class Server {
 
     private Map<String, ClientHandler> clientMap;
 
+    private Map<String, String> onHoldMessages;
+
     public Server() {
         portNumber = 9090;
         executorService = Executors.newFixedThreadPool(10);
-        clientMap = new HashMap<String, ClientHandler>();
+        clientMap = new HashMap<>();
+        onHoldMessages = new HashMap<>();
 
     }
 
@@ -40,27 +43,20 @@ public class Server {
 
                 Socket clientSocket = serverSocket.accept();
 
-                ClientHandler clientHandler = new ClientHandler(clientSocket, this);
-
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                 String string = bufferedReader.readLine();
 
+                for (String s : onHoldMessages.keySet()){
+
+                    directMessage(s, onHoldMessages.get(s));
+                }
+
+                ClientHandler clientHandler = new ClientHandler(clientSocket, this, string);
+
                 clientMap.put(string, clientHandler);
 
                 executorService.submit(clientHandler);
-
-                System.out.println(string);
-
-                String[] strings = string.split(" ");
-
-                if (strings[0].equals("start")) {
-
-                    clientMap.get(strings[1]).setMatch(strings[2]);
-                    clientMap.get(strings[2]).setMatch(strings[1]);
-                    System.out.println("entered!!!!!!!!!!");
-                    clientMap.get(strings[1]).sendMessage("whatever hope it goes through!!");
-                }
 
             }
         } catch (IOException e) {
@@ -68,20 +64,38 @@ public class Server {
         }
     }
 
-    public void directMessage(ClientHandler source, String destination, String message) {
+    public void directMessage(String destination, String message) {
 
         try {
-            PrintWriter out = new PrintWriter(clientMap.get(destination).getClientSocket().getOutputStream());
+            if (clientMap.get(destination).getClientSocket().isConnected()) {
 
-            out.write("" + source + ": " + message);
+                PrintWriter out = new PrintWriter(clientMap.get(destination).getClientSocket().getOutputStream());
+                out.write(message);
+                out.flush();
+            }
+            else {
+
+                String string = "message!!" + message;
+                onHoldMessages.put(destination, string);
+
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void setMatch(String user1, String user2) {
 
-        clientMap.get(user1).setMatch(user2);
-        clientMap.get(user2).setMatch(user1);
+    public boolean isOnline(String matchUser) {
+
+        return clientMap.get(matchUser).getClientSocket().isConnected();
     }
+
+    public void clientMapUpdate(String s) {
+
+        clientMap.remove(s);
+    }
+
+
 }
+

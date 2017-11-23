@@ -11,14 +11,15 @@ import java.net.Socket;
 public class ClientHandler implements Runnable {
 
     private Server server;
+    private String username;
 
     private Socket clientSocket;
     private String matchUser;
 
-    public ClientHandler(Socket clientSocket, Server server) {
+    public ClientHandler(Socket clientSocket, Server server, String username) {
 
         this.server = server;
-
+        this.username = username;
         this.clientSocket = clientSocket;
     }
 
@@ -32,22 +33,42 @@ public class ClientHandler implements Runnable {
 
                 String string = bufferedReader.readLine();
 
+                messageHandler(string);
             }
 
-
         } catch (IOException e) {
+
+            server.clientMapUpdate(username);
             e.printStackTrace();
         }
-
     }
 
     public void sendMessage(String message) {
 
-        server.directMessage(this, matchUser, message);
+        String string = username + ": " + message;
+
+        server.directMessage(matchUser, string);
     }
 
-    public void messageHandler(String string){
+    public void messageHandler(String string) {
 
+        String[] strings = string.split("!!");
+
+        if (strings[0].equals("match")) {
+
+            setMatch(strings[1]);
+        }
+
+        if (strings[0].equals("message") && matchUser != null) {
+
+            sendMessage(strings[1]);
+        }
+
+        if (strings[0].equals("isMatchOnline")){
+
+            server.isOnline(matchUser);
+
+        }
 
     }
 
