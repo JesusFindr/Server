@@ -15,7 +15,7 @@ public class Profile {
     private BellyButton bellyButton;
     private String spiritAnimal;
     private BrowsType browsType;
-    private int fingersInHands;
+    private boolean backHair;
 
     public Profile(User user) {
         this.user = user;
@@ -37,8 +37,8 @@ public class Profile {
         this.browsType = browsType;
     }
 
-    public void setFingersInHands(int fingersInHands) {
-        this.fingersInHands = fingersInHands;
+    public void setBackHair(boolean backHair) {
+        this.backHair = backHair;
     }
 
     public void setRealName(String realName) {
@@ -73,8 +73,8 @@ public class Profile {
         return browsType;
     }
 
-    public int getFingersInHands() {
-        return fingersInHands;
+    public boolean getBackHair() {
+        return backHair;
     }
 
     public String getRealName() {
