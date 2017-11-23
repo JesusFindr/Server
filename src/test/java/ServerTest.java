@@ -1,7 +1,4 @@
-/**
- * MIT License
- * (c) 2017 Ricardo Constantino
- */
+import org.academiadecodigo.hackathon.jesusfindrserver.server.Server;
 
 public class ServerTest {
 

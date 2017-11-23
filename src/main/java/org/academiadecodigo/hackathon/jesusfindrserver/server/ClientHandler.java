@@ -1,7 +1,8 @@
+package org.academiadecodigo.hackathon.jesusfindrserver.server;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
@@ -14,7 +15,7 @@ public class ClientHandler implements Runnable {
     private Socket clientSocket;
     private String matchUser;
 
-    public ClientHandler(Socket clientSocket, Server server){
+    public ClientHandler(Socket clientSocket, Server server) {
 
         this.server = server;
 
@@ -27,11 +28,10 @@ public class ClientHandler implements Runnable {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            while (clientSocket.isConnected()){
+            while (clientSocket.isConnected()) {
 
                 String string = bufferedReader.readLine();
 
-                System.out.println(string);
             }
 
 
@@ -41,9 +41,14 @@ public class ClientHandler implements Runnable {
 
     }
 
-    public void sendMessage(String message){
+    public void sendMessage(String message) {
 
         server.directMessage(this, matchUser, message);
+    }
+
+    public void messageHandler(String string){
+
+
     }
 
 
@@ -55,3 +60,4 @@ public class ClientHandler implements Runnable {
         this.matchUser = matchUser;
     }
 }
+
