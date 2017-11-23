@@ -25,7 +25,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.academiadecodigo.hackathon.Server</mainClass>
+                            <mainClass>org.academiadecodigo.hackathon.jesusfindrserver.Server</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -1,4 +1,4 @@
-package services.user;
+package org.academiadecodigo.hackathon.jesusfindrserver.services.user;
 
 /**
  * MIT License
@@ -6,4 +6,5 @@ package services.user;
  */
 
 public interface UserService {
+
 }

@@ -220,7 +220,7 @@ captures/
 .externalNativeBuild
 
 # Google Services (e.g. APIs or Firebase)
-google-services.json
+google-org.academiadecodigo.hackathon.jesusfindrserver.services.json
 
 ### Android Patch ###
 gen-external-apklibs

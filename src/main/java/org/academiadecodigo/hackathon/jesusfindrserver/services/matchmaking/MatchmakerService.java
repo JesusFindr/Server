@@ -1,4 +1,4 @@
-package services.matchmaking;
+package org.academiadecodigo.hackathon.jesusfindrserver.services.matchmaking;
 
 /**
  * MIT License

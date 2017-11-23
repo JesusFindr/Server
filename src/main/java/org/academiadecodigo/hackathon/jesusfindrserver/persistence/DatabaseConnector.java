@@ -1,4 +1,4 @@
-package persistence;
+package org.academiadecodigo.hackathon.jesusfindrserver.persistence;
 
 /**
  * MIT License
