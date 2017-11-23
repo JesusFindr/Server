@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class Server {
 
                 Socket clientSocket = serverSocket.accept();
 
-                ClientHandler clientHandler = new ClientHandler(clientSocket);
+                ClientHandler clientHandler = new ClientHandler(clientSocket, this);
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
@@ -55,4 +56,20 @@ public class Server {
             e.printStackTrace();
         }
     }
+
+    public void directMessage(ClientHandler source, String destination, String message){
+
+        try {
+            PrintWriter out = new PrintWriter(clientMap.get(destination).getClientSocket().getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setMatch(String user1, String user2){
+
+        clientMap.get(user1).setMatch(user2);
+        clientMap.get(user2).setMatch(user1);
+    }
+
 }

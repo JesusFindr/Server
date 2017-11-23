@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
@@ -8,9 +9,14 @@ import java.net.Socket;
  */
 public class ClientHandler implements Runnable {
 
-    private Socket clientSocket;
+    private Server server;
 
-    public ClientHandler(Socket clientSocket){
+    private Socket clientSocket;
+    private String matchUser;
+
+    public ClientHandler(Socket clientSocket, Server server){
+
+        this.server = server;
 
         this.clientSocket = clientSocket;
     }
@@ -33,5 +39,19 @@ public class ClientHandler implements Runnable {
             e.printStackTrace();
         }
 
+    }
+
+    public void sendMessage(String message){
+
+        server.directMessage(this, matchUser, message);
+    }
+
+
+    public Socket getClientSocket() {
+        return clientSocket;
+    }
+
+    public void setMatch(String matchUser) {
+        this.matchUser = matchUser;
     }
 }
