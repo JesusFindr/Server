@@ -92,4 +92,8 @@ public class Profile {
     public int getImage() {
         return image;
     }
+
+    public User getUser() {
+        return user;
+    }
 }
