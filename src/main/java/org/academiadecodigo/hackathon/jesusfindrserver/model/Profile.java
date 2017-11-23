@@ -7,6 +7,10 @@ package org.academiadecodigo.hackathon.jesusfindrserver.model;
 
 public class Profile {
     private User user;
+    private String realName;
+    private int age;
+    private SexType sexType;
+    private int image;
     private ShoeSize shoeSize;
     private BellyButton bellyButton;
     private String spiritAnimal;
@@ -37,6 +41,22 @@ public class Profile {
         this.fingersInHands = fingersInHands;
     }
 
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setSexType(SexType sexType) {
+        this.sexType = sexType;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
+    }
+
     public ShoeSize getShoeSize() {
         return shoeSize;
     }
@@ -55,5 +75,21 @@ public class Profile {
 
     public int getFingersInHands() {
         return fingersInHands;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public SexType getSexType() {
+        return sexType;
+    }
+
+    public int getImage() {
+        return image;
     }
 }

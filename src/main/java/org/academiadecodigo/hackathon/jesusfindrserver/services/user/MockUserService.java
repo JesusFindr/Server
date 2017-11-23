@@ -52,4 +52,8 @@ public class MockUserService implements UserService {
     public User findByName(String username) {
         return userList.get(username);
     }
+
+    public Map<String, User> getUserList() {
+        return userList;
+    }
 }
