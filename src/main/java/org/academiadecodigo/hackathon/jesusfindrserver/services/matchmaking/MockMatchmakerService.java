@@ -3,8 +3,10 @@ package org.academiadecodigo.hackathon.jesusfindrserver.services.matchmaking;
 import org.academiadecodigo.hackathon.jesusfindrserver.model.*;
 import org.academiadecodigo.hackathon.jesusfindrserver.services.user.UserService;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * MIT License
@@ -14,11 +16,13 @@ import java.util.List;
 public class MockMatchmakerService {
 
     private UserService userService;
-    private List<Profile> profilesList;
+    private Map<String, Profile> profilesList;
+    private List<String> matchesMade;
 
     public MockMatchmakerService(UserService userService) {
-        this.profilesList = new LinkedList<>();
+        this.profilesList = new HashMap<>();
         this.userService = userService;
+        matchesMade = new LinkedList<>();
 
         fillProfilesList();
     }
@@ -35,21 +39,28 @@ public class MockMatchmakerService {
             profile.setShoeSize(ShoeSize.values()[(int) (Math.random() * 3)]);
             profile.setImage(image);
             profile.setRealName(user.getUsername());
-            profilesList.add(profile);
+            profilesList.put(user.getUsername(), profile);
             image++;
         }
     }
 
     public User findMatchForUser(User user) {
-        int profilesSize = profilesList.size();
-        int roll = (int) (Math.random() * profilesSize);
+        List<String> possibleMatches = new LinkedList<>();
+        // add all filled profiles
+        possibleMatches.addAll(profilesList.keySet());
+        // remove already matched usernames
+        possibleMatches.removeAll(matchesMade);
+        // remove own username
+        possibleMatches.remove(user.getUsername());
 
-        while (profilesList.get(roll).getUser().equals(user)) {
-            roll = (int) (Math.random() * profilesSize);
-        }
+        int matchId = (int) (Math.random() * possibleMatches.size());
+        String matchedUsername = possibleMatches.get(matchId);
 
-        return profilesList.get(roll).getUser();
+        return profilesList.get(matchedUsername).getUser();
     }
 
-    public
+    public Profile getProfileFromUser(User user) {
+        return profilesList.get(user.getUsername());
+    }
+
 }
