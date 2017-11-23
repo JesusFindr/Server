@@ -2,8 +2,7 @@ package org.academiadecodigo.hackathon.jesusfindrserver.services.user;
 
 import org.academiadecodigo.hackathon.jesusfindrserver.model.User;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * MIT License
@@ -24,7 +23,7 @@ public class MockUserService implements UserService {
 
         String[] mockUsers = new String[] {
                 "sara", "ricardo", "pedro", "fábio",
-                "luís", "romeu", "catarina"
+                "luís", "romeu"
         };
 
         for (String name : mockUsers) {
@@ -53,7 +52,7 @@ public class MockUserService implements UserService {
         return userList.get(username);
     }
 
-    public Map<String, User> getUserList() {
-        return userList;
+    public Collection<User> getUserList() {
+        return userList.values();
     }
 }

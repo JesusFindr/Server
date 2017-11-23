@@ -1,7 +1,9 @@
 package org.academiadecodigo.hackathon.jesusfindrserver.services.matchmaking;
 
+import org.academiadecodigo.hackathon.jesusfindrserver.model.BellyButton;
 import org.academiadecodigo.hackathon.jesusfindrserver.model.Profile;
 import org.academiadecodigo.hackathon.jesusfindrserver.model.User;
+import org.academiadecodigo.hackathon.jesusfindrserver.services.user.UserService;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,13 +15,26 @@ import java.util.List;
 
 public class MockMatchmakerService {
 
+    private UserService userService;
     private List<Profile> profilesList;
 
-    public MockMatchmakerService() {
+    public MockMatchmakerService(UserService userService) {
         this.profilesList = new LinkedList<>();
+        this.userService = userService;
+
+        fillProfilesList();
     }
 
-    private User findMatchForUser(User user) {
+    private void fillProfilesList() {
+        for (User user : userService.getUserList()) {
+            Profile profile = new Profile(user);
+            profile.setBackHair(false);
+            profile.setBellyButton(BellyButton.values());
+            profilesList.add()
+        }
+    }
+
+    public  User findMatchForUser(User user) {
         int profilesSize = profilesList.size();
         int roll = (int) (Math.random() * profilesSize);
 
@@ -29,5 +44,7 @@ public class MockMatchmakerService {
 
         return profilesList.get(roll).getUser();
     }
+
+    public
 
 }
