@@ -102,7 +102,7 @@ public class Server {
 
         if (strings[0].equals("login") && userService.authenticate(strings[1], strings[2])) {
 
-            ClientHandler clientHandler = new ClientHandler(clientSocket, this, string);
+            ClientHandler clientHandler = new ClientHandler(clientSocket, this, strings[1]);
 
             clientMap.put(strings[1], clientHandler);
 
@@ -119,7 +119,7 @@ public class Server {
 
             userService.addUser(user);
 
-            ClientHandler clientHandler = new ClientHandler(clientSocket, this, string);
+            ClientHandler clientHandler = new ClientHandler(clientSocket, this, strings[1]);
 
             clientMap.put(strings[1], clientHandler);
 

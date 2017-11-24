@@ -35,7 +35,7 @@ public class JdbcMatchmakerService implements MatchmakerService {
         List<String> possibleMatches = new LinkedList<>();
 
         try {
-            String query = "SELECT username FROM " + profilesTableName + " WHERE username IS NOT ?";
+            String query = "SELECT username FROM " + profilesTableName + " WHERE username != ?";
             PreparedStatement statement = dbConnection.prepareStatement(query);
 
             statement.setString(1, user.getUsername());
@@ -72,7 +72,7 @@ public class JdbcMatchmakerService implements MatchmakerService {
         Profile profile = null;
 
         try {
-            String query = "SELECT * FROM " + profilesTableName + " WHERE username IS ?";
+            String query = "SELECT * FROM " + profilesTableName + " WHERE username = ?";
             PreparedStatement statement = dbConnection.prepareStatement(query);
 
             statement.setString(1, user.getUsername());

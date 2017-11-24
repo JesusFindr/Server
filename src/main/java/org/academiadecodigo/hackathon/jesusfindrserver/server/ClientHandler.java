@@ -84,7 +84,7 @@ public class ClientHandler implements Runnable {
 
     private void sendProfile(String matchUser) {
         Profile match = server.getMatchmakerService().getProfileFromUser(new User(matchUser));
-        sendMessage(String.format("profile#€%s#€%d#€%s#€%d#€%s#€%s#€%s#€%s#€%s",
+        server.directMessage(username, String.format("profile#€%s#€%d#€%s#€%d#€%s#€%s#€%s#€%s#€%s",
                 match.getUser().getUsername(), match.getAge(),
                 match.getSexType().getType(), match.getImage(),
                 match.getShoeSize().getType(), match.getBellyButton().getType(),
