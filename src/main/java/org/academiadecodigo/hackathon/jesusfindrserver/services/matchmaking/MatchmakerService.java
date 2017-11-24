@@ -9,7 +9,7 @@ import org.academiadecodigo.hackathon.jesusfindrserver.model.User;
  */
 
 public interface MatchmakerService {
-    User findMatchForUser(User user);
+    String findMatchForUser(User user);
 
     Profile getProfileFromUser(User user);
 

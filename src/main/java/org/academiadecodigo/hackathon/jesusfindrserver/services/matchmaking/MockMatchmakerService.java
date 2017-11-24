@@ -13,7 +13,7 @@ import java.util.Map;
  * (c) 2017 Ricardo Constantino
  */
 
-public class MockMatchmakerService {
+public class MockMatchmakerService implements MatchmakerService {
 
     private UserService userService;
     private Map<String, Profile> profilesList;
@@ -38,13 +38,13 @@ public class MockMatchmakerService {
             profile.setSexType(SexType.VIRGIN);
             profile.setShoeSize(ShoeSize.values()[(int) (Math.random() * 3)]);
             profile.setImage(image);
-            profile.setRealName(user.getUsername());
             profilesList.put(user.getUsername(), profile);
             image++;
         }
     }
 
-    public User findMatchForUser(User user) {
+    @Override
+    public String findMatchForUser(User user) {
         List<String> possibleMatches = new LinkedList<>();
         // add all filled profiles
         possibleMatches.addAll(profilesList.keySet());
@@ -54,15 +54,16 @@ public class MockMatchmakerService {
         possibleMatches.remove(user.getUsername());
 
         int matchId = (int) (Math.random() * possibleMatches.size());
-        String matchedUsername = possibleMatches.get(matchId);
 
-        return profilesList.get(matchedUsername).getUser();
+        return possibleMatches.get(matchId);
     }
 
+    @Override
     public Profile getProfileFromUser(User user) {
         return profilesList.get(user.getUsername());
     }
 
+    @Override
     public void addProfile(Profile profile) {
         profilesList.put(profile.getUser().getUsername(), profile);
     }
