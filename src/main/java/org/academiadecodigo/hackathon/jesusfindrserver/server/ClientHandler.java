@@ -67,7 +67,6 @@ public class ClientHandler implements Runnable {
         if (strings[0].equals("isMatchOnline")){
 
             server.isOnline(matchUser);
-
         }
 
     }

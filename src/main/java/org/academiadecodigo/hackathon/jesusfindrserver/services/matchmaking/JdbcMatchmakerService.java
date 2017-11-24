@@ -113,11 +113,12 @@ public class JdbcMatchmakerService implements MatchmakerService {
             statement.setString(1, profile.getUser().getUsername());
             statement.setInt(2, profile.getAge());
             statement.setInt(3, profile.getImage());
-            statement.setInt(4, profile.getShoeSize().ordinal());
-            statement.setInt(5, profile.getBellyButton().ordinal());
-            statement.setString(6, profile.getSpiritAnimal());
-            statement.setInt(7, profile.getBrowsType().ordinal());
-            statement.setBoolean(8, profile.getBackHair());
+            statement.setInt(4, profile.getSexType().ordinal());
+            statement.setInt(5, profile.getShoeSize().ordinal());
+            statement.setInt(6, profile.getBellyButton().ordinal());
+            statement.setString(7, profile.getSpiritAnimal());
+            statement.setInt(8, profile.getBrowsType().ordinal());
+            statement.setBoolean(9, profile.getBackHair());
 
 
             if (!statement.execute()) {

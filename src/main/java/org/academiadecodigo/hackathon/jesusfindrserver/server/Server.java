@@ -52,8 +52,6 @@ public class Server {
 
                 String string = bufferedReader.readLine();
 
-                System.out.println(string);
-
                 handleFirstMessage(string, clientSocket);
 
                 for (String s : onHoldMessages.keySet()) {
@@ -96,11 +94,11 @@ public class Server {
         clientMap.remove(s);
     }
 
+
+
     public void handleFirstMessage(String string, Socket clientSocket) {
 
         String[] strings = string.split("#€");
-
-        System.out.println(string);
 
         if (strings[0].equals("login") && userService.authenticate(strings[1], strings[2])) {
 
@@ -111,7 +109,6 @@ public class Server {
             executorService.submit(clientHandler);
 
             directMessage(strings[1], "login#€success\n");
-
 
             return;
         }
@@ -167,24 +164,21 @@ public class Server {
 
         profile.setAge(Integer.parseInt(strings[3]));
 
-        profile.setSexType(SexType.valueOf(strings[4]));
+        profile.setSexType(SexType.values()[Integer.parseInt(strings[4])]);
 
-        profile.setShoeSize(ShoeSize.valueOf(strings[5]));
+        profile.setShoeSize(ShoeSize.values()[Integer.parseInt(strings[5])]);
 
-        profile.setBellyButton(BellyButton.valueOf(strings[6]));
+        profile.setBellyButton(BellyButton.values()[Integer.parseInt(strings[6])]);
 
         profile.setSpiritAnimal(strings[7]);
 
-        profile.setBrowsType(BrowsType.valueOf(strings[8]));
+        profile.setBrowsType(BrowsType.values()[Integer.parseInt(strings[8])]);
 
-        boolean backHair = false;
+        profile.setBackHair(Boolean.parseBoolean(strings[9]));
 
-        if (strings[9].equals("true")) {
+        matchmakerService.addProfile(profile);
 
-            backHair = true;
-        }
-
-        profile.setBackHair(backHair);
+        System.out.println("added profile to db");
 
     }
 
