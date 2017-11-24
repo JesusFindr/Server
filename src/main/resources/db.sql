@@ -9,11 +9,11 @@ CREATE TABLE `users_profiles` (
   `age` int(3) NOT NULL,
   `image` int(3) NOT NULL,
   `sex` int(3) NOT NULL,
-  `shoe_size` int(11) DEFAULT NULL,
-  `bellybutton` int(11) DEFAULT NULL,
+  `shoe_size` int(11) NOT NULL,
+  `bellybutton` int(11) NOT NULL,
   `spirit_animal` varchar(30) NOT NULL DEFAULT '',
-  `brows_type` int(11) DEFAULT NULL,
-  `back_hair` tinyint(1) DEFAULT NULL,
+  `brows_type` int(11) NOT NULL,
+  `back_hair` tinyint(1) NOT NULL,
   PRIMARY KEY (`username`),
   CONSTRAINT `fk_foreignuser` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
