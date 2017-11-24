@@ -5,6 +5,7 @@ import org.academiadecodigo.hackathon.jesusfindrserver.persistence.DatabaseConne
 
 import java.sql.*;
 import java.util.Collection;
+import java.util.LinkedList;
 
 public class JdbcUserService implements UserService {
 
@@ -21,7 +22,7 @@ public class JdbcUserService implements UserService {
         User user = findByName(username);
         checkConnection();
 
-        if (user.getUsername() == null) {
+        if (user == null) {
             return false;
         }
 
@@ -91,6 +92,8 @@ public class JdbcUserService implements UserService {
 
         checkConnection();
 
+        Collection<User> collection = new LinkedList<>();
+
         String query = "SELECT * FROM users";
 
         try {
@@ -98,11 +101,18 @@ public class JdbcUserService implements UserService {
 
             ResultSet resultSet = statement.executeQuery();
 
-            while (resultSet.next())
+            while (resultSet.next()) {
+
+                String name = resultSet.getString("username");
+                String password = resultSet.getString("password");
+                User user = new User(name, password);
+                collection.add(user);
+
+            }
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        return null;
+        return collection;
     }
 
     //utils
