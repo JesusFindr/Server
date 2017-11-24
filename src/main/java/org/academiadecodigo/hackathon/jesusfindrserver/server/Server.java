@@ -3,7 +3,6 @@ package org.academiadecodigo.hackathon.jesusfindrserver.server;
 import org.academiadecodigo.hackathon.jesusfindrserver.model.*;
 import org.academiadecodigo.hackathon.jesusfindrserver.services.matchmaking.JdbcMatchmakerService;
 import org.academiadecodigo.hackathon.jesusfindrserver.services.matchmaking.MatchmakerService;
-import org.academiadecodigo.hackathon.jesusfindrserver.services.matchmaking.MockMatchmakerService;
 import org.academiadecodigo.hackathon.jesusfindrserver.services.user.UserService;
 
 import java.io.BufferedReader;
@@ -77,7 +76,7 @@ public class Server {
 
             } else {
 
-                String string = "message#€" + message;
+                String string = "message#€" + message + "\n";
                 onHoldMessages.put(destination, string);
 
             }
@@ -111,9 +110,8 @@ public class Server {
 
             executorService.submit(clientHandler);
 
-            directMessage(strings[1], "login#€success");
+            directMessage(strings[1], "login#€success\n");
 
-            System.out.println("!1111111111111111111111111111111111111111111");
 
             return;
         }
@@ -130,9 +128,7 @@ public class Server {
 
             executorService.submit(clientHandler);
 
-            directMessage(strings[1], "register#€success");
-
-            System.out.println("2222222222222222222222222222222222");
+            directMessage(strings[1], "register#€success\n");
 
             handleProfile(string, user);
 
@@ -144,14 +140,12 @@ public class Server {
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
 
                 if (strings[0].equals("login")) {
-                    out.write("login#€fail");
+                    out.write("login#€fail\n");
                     out.flush();
-                    System.out.println("333333333333333333333333333333333333333");
                 }
                 if (strings[0].equals("register")) {
-                    out.write("register#€fail");
+                    out.write("register#€fail\n");
                     out.flush();
-                    System.out.println("44444444444444444444444444");
                 }
 
             } catch (IOException e) {
