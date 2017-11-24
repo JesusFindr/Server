@@ -11,9 +11,9 @@ import java.sql.SQLException;
 
 public class DatabaseConnector {
 
-    private static final String dbUrl = "jdbc:mysql:///cadetlogin?useSSL=false";
-    private static final String user = "root";
-    private static final String pass = "";
+    private static final String dbUrl = "jdbc:mysql://192.168.1.18/jesusfindr?useSSL=false";
+    private static final String user = "jesusfindr";
+    private static final String pass = "jesus";
 
     private static DatabaseConnector databaseConnector;
     private Connection connection = null;
