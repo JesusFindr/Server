@@ -60,7 +60,7 @@ public class ClientHandler implements Runnable {
         if (strings[0].equals("match")) {
             setMatch(server.getMatchmakerService().findMatchForUser(new User(username)));
             if (matchUser != null) {
-                sendMessage("match#€found");
+                sendProfile(matchUser);
             } else {
                 sendMessage("match#€notfound");
             }
@@ -77,15 +77,19 @@ public class ClientHandler implements Runnable {
         }
 
         if (strings[0].equals("profile")) {
-            Profile match = server.getMatchmakerService().getProfileFromUser(new User(strings[1]));
-            sendMessage(String.format("profile#€%s#€%d#€%s#€%d#€%s#€%s#€%s#€%s#€%s",
-                    match.getUser().getUsername(), match.getAge(),
-                    match.getSexType().getType(), match.getImage(),
-                    match.getShoeSize().getType(), match.getBellyButton().getType(),
-                    match.getSpiritAnimal(), match.getBrowsType().getType(),
-                    Boolean.toString(match.getBackHair())));
+            sendProfile(strings[1]);
         }
 
+    }
+
+    private void sendProfile(String matchUser) {
+        Profile match = server.getMatchmakerService().getProfileFromUser(new User(matchUser));
+        sendMessage(String.format("profile#€%s#€%d#€%s#€%d#€%s#€%s#€%s#€%s#€%s",
+                match.getUser().getUsername(), match.getAge(),
+                match.getSexType().getType(), match.getImage(),
+                match.getShoeSize().getType(), match.getBellyButton().getType(),
+                match.getSpiritAnimal(), match.getBrowsType().getType(),
+                Boolean.toString(match.getBackHair())));
     }
 
 
