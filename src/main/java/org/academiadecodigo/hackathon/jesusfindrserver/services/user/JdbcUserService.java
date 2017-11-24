@@ -27,6 +27,7 @@ public class JdbcUserService implements UserService {
         }
 
         closeStatement();
+
         return user.getPassword().equals(password);
     }
 

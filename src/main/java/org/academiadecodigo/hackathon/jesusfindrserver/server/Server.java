@@ -53,6 +53,8 @@ public class Server {
 
                 String string = bufferedReader.readLine();
 
+                System.out.println(string);
+
                 handleFirstMessage(string, clientSocket);
 
                 for (String s : onHoldMessages.keySet()) {
@@ -70,12 +72,12 @@ public class Server {
         try {
             if (clientMap.get(destination).getClientSocket().isConnected()) {
 
-                PrintWriter out = new PrintWriter(clientMap.get(destination).getClientSocket().getOutputStream());
-                out.write(message);
-                out.flush();
+                PrintWriter out = new PrintWriter(clientMap.get(destination).getClientSocket().getOutputStream(), true);
+                out.println(message);
+
             } else {
 
-                String string = "message!!" + message;
+                String string = "message#€" + message;
                 onHoldMessages.put(destination, string);
 
             }
@@ -99,6 +101,8 @@ public class Server {
 
         String[] strings = string.split("#€");
 
+        System.out.println(string);
+
         if (strings[0].equals("login") && userService.authenticate(strings[1], strings[2])) {
 
             ClientHandler clientHandler = new ClientHandler(clientSocket, this, string);
@@ -108,6 +112,8 @@ public class Server {
             executorService.submit(clientHandler);
 
             directMessage(strings[1], "login#€success");
+
+            System.out.println("!1111111111111111111111111111111111111111111");
 
             return;
         }
@@ -126,6 +132,8 @@ public class Server {
 
             directMessage(strings[1], "register#€success");
 
+            System.out.println("2222222222222222222222222222222222");
+
             handleProfile(string, user);
 
             return;
@@ -138,10 +146,12 @@ public class Server {
                 if (strings[0].equals("login")) {
                     out.write("login#€fail");
                     out.flush();
+                    System.out.println("333333333333333333333333333333333333333");
                 }
                 if (strings[0].equals("register")) {
                     out.write("register#€fail");
                     out.flush();
+                    System.out.println("44444444444444444444444444");
                 }
 
             } catch (IOException e) {
