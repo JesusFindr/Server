@@ -3,10 +3,7 @@ package org.academiadecodigo.hackathon.jesusfindrserver.services.user;
 import org.academiadecodigo.hackathon.jesusfindrserver.model.User;
 import org.academiadecodigo.hackathon.jesusfindrserver.persistence.DatabaseConnector;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Collection;
 
 public class JdbcUserService implements UserService {
@@ -24,7 +21,7 @@ public class JdbcUserService implements UserService {
         User user = findByName(username);
         checkConnection();
 
-        if(user.getUsername() == null){
+        if (user.getUsername() == null) {
             return false;
         }
 
@@ -37,7 +34,7 @@ public class JdbcUserService implements UserService {
 
         checkConnection();
 
-        if(existingUser(user)){
+        if (existingUser(user)) {
             return;
         }
 
@@ -58,28 +55,54 @@ public class JdbcUserService implements UserService {
         closeStatement();
     }
 
-    private boolean existingUser(User user) {
-        return findByName(user.getUsername()) != null;
-    }
-
     @Override
     public User findByName(String username) {
-        return null;
+
+        checkConnection();
+
+        User user = null;
+
+        String query = "SELECT username, password FROM users WHERE username = ?";
+
+        try {
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+
+            statement.setString(1, username);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String name = resultSet.getString("username");
+                String password = resultSet.getString("password");
+
+                user = new User(name, password);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        closeStatement();
+        return user;
     }
 
     @Override
     public Collection<User> getUserList() {
+
+        checkConnection();
+
+
         return null;
     }
 
     //utils
-    private void checkConnection(){
-        if(!isConnected()){
+    private void checkConnection() {
+        if (!isConnected()) {
             DatabaseConnector.getInstance().getConnection();
         }
     }
 
-    private boolean isConnected(){
+    private boolean isConnected() {
 
         boolean isConnected = false;
         try {
@@ -90,8 +113,12 @@ public class JdbcUserService implements UserService {
         return isConnected;
     }
 
-    private void closeStatement(){
-        if(statement != null){
+    private boolean existingUser(User user) {
+        return findByName(user.getUsername()) != null;
+    }
+
+    private void closeStatement() {
+        if (statement != null) {
             try {
                 statement.close();
             } catch (SQLException e) {
