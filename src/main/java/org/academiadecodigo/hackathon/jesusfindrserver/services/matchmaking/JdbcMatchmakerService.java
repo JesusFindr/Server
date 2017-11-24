@@ -34,6 +34,16 @@ public class JdbcMatchmakerService implements MatchmakerService {
         Map<String, String> matchesMade = getMatchesMade();
         List<String> possibleMatches = new LinkedList<>();
 
+        if (matchesMade.containsKey(user.getUsername())) {
+            return matchesMade.get(user.getUsername());
+        } else if (matchesMade.containsValue(user.getUsername())) {
+            for (Map.Entry<String, String> entry : matchesMade.entrySet()){
+                if (entry.getValue().equals(user.getUsername())) {
+                    return entry.getKey();
+                }
+            }
+        }
+
         try {
             String query = "SELECT username FROM " + profilesTableName + " WHERE username != ?";
             PreparedStatement statement = dbConnection.prepareStatement(query);
@@ -62,7 +72,31 @@ public class JdbcMatchmakerService implements MatchmakerService {
 
         int matchId = (int) (Math.random() * possibleMatches.size());
 
-        return possibleMatches.get(matchId);
+        String matchFound = possibleMatches.get(matchId);
+
+        addMatch(user.getUsername(), matchFound);
+
+        return matchFound;
+    }
+
+    private void addMatch(String username, String matchFound) {
+        reopenConnectionIfNeeded();
+
+        try {
+            String query = "INSERT INTO "+matchesTableName+" (user1, user2) VALUES (?, ?) ";
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+
+            statement.setString(1, username);
+            statement.setString(2, matchFound);
+
+            if (!statement.execute()) {
+                System.out.println("Match adding failed");
+            }
+
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
