@@ -6,7 +6,17 @@ package org.academiadecodigo.hackathon.jesusfindrserver.model;
  */
 
 public enum BellyButton {
-    INNIE,
-    OUTTIE,
-    OTHER
+    INNIE("Innie"),
+    OUTTIE("Outtie"),
+    OTHER("Other");
+
+    private String type;
+
+    BellyButton(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

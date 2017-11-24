@@ -6,7 +6,17 @@ package org.academiadecodigo.hackathon.jesusfindrserver.model;
  */
 
 public enum ShoeSize {
-    SMALL,
-    MEDIUM,
-    BIG
+    SMALL("Small"),
+    MEDIUM("Medium"),
+    BIG("Big");
+
+    private String type;
+
+    ShoeSize(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
 }
