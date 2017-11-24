@@ -91,7 +91,17 @@ public class JdbcUserService implements UserService {
 
         checkConnection();
 
+        String query = "SELECT * FROM users";
 
+        try {
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next())
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
         return null;
     }
 
