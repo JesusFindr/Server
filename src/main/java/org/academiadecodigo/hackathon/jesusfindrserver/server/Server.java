@@ -182,5 +182,9 @@ public class Server {
 
     }
 
+    public MatchmakerService getMatchmakerService() {
+        return matchmakerService;
+    }
+
 }
 

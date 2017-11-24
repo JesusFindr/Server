@@ -1,5 +1,8 @@
 package org.academiadecodigo.hackathon.jesusfindrserver.server;
 
+import org.academiadecodigo.hackathon.jesusfindrserver.model.Profile;
+import org.academiadecodigo.hackathon.jesusfindrserver.model.User;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,8 +58,12 @@ public class ClientHandler implements Runnable {
         String[] strings = string.split("#€");
 
         if (strings[0].equals("match")) {
-
-            setMatch(strings[1]);
+            setMatch(server.getMatchmakerService().findMatchForUser(new User(username)));
+            if (matchUser != null) {
+                sendMessage("match#€found");
+            } else {
+                sendMessage("match#€notfound");
+            }
         }
 
         if (strings[0].equals("message") && matchUser != null) {
@@ -67,6 +74,16 @@ public class ClientHandler implements Runnable {
         if (strings[0].equals("isMatchOnline")){
 
             server.isOnline(matchUser);
+        }
+
+        if (strings[0].equals("profile")) {
+            Profile match = server.getMatchmakerService().getProfileFromUser(new User(strings[1]));
+            sendMessage(String.format("profile#€%s#€%d#€%s#€%d#€%s#€%s#€%s#€%s#€%s",
+                    match.getUser().getUsername(), match.getAge(),
+                    match.getSexType().getType(), match.getImage(),
+                    match.getShoeSize().getType(), match.getBellyButton().getType(),
+                    match.getSpiritAnimal(), match.getBrowsType().getType(),
+                    Boolean.toString(match.getBackHair())));
         }
 
     }
