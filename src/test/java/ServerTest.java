@@ -1,4 +1,5 @@
 import org.academiadecodigo.hackathon.jesusfindrserver.server.Server;
+import org.academiadecodigo.hackathon.jesusfindrserver.services.user.MockUserService;
 
 public class ServerTest {
 
@@ -6,8 +7,9 @@ public class ServerTest {
 
         Server server = new Server();
 
-        server.start();
+        server.setUserService(new MockUserService());
 
+        server.start();
 
     }
 }

@@ -28,9 +28,10 @@ public class MockUserService implements UserService {
         };
 
         for (String name : mockUsers) {
-            User newUser = new User(name,
-                    // 12345 hashed to SHA
-                    "8cb2237d0679ca88db6464eac60da96345513964");
+            User newUser = new User(name, "12345");
+
+            //hashed to SHA
+                   // "8cb2237d0679ca88db6464eac60da96345513964");
             userList.put(name, newUser);
         }
 
@@ -45,7 +46,9 @@ public class MockUserService implements UserService {
 
     @Override
     public void addUser(User user) {
+
         userList.put(user.getUsername(), user);
+
     }
 
     @Override

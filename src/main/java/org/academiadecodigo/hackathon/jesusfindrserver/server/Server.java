@@ -1,5 +1,8 @@
 package org.academiadecodigo.hackathon.jesusfindrserver.server;
 
+import org.academiadecodigo.hackathon.jesusfindrserver.model.*;
+import org.academiadecodigo.hackathon.jesusfindrserver.services.matchmaking.MatchmakerService;
+import org.academiadecodigo.hackathon.jesusfindrserver.services.matchmaking.MockMatchmakerService;
 import org.academiadecodigo.hackathon.jesusfindrserver.services.user.UserService;
 
 import java.io.BufferedReader;
@@ -13,11 +16,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * MIT License
- * (c) 2017 Ricardo Constantino
- */
-
 public class Server {
 
     private int portNumber;
@@ -25,6 +23,8 @@ public class Server {
     private ExecutorService executorService;
 
     private UserService userService;
+
+    private MatchmakerService matchmakerService;
 
     private Map<String, ClientHandler> clientMap;
 
@@ -35,6 +35,7 @@ public class Server {
         executorService = Executors.newFixedThreadPool(10);
         clientMap = new HashMap<>();
         onHoldMessages = new HashMap<>();
+        matchmakerService = new MockMatchmakerService();
 
     }
 
@@ -51,19 +52,12 @@ public class Server {
 
                 String string = bufferedReader.readLine();
 
-                handleFirstMessage(string);
+                handleFirstMessage(string, clientSocket);
 
-                for (String s : onHoldMessages.keySet()){
+                for (String s : onHoldMessages.keySet()) {
 
                     directMessage(s, onHoldMessages.get(s));
                 }
-
-                ClientHandler clientHandler = new ClientHandler(clientSocket, this, string);
-
-                clientMap.put(string, clientHandler);
-
-                executorService.submit(clientHandler);
-
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,8 +72,7 @@ public class Server {
                 PrintWriter out = new PrintWriter(clientMap.get(destination).getClientSocket().getOutputStream());
                 out.write(message);
                 out.flush();
-            }
-            else {
+            } else {
 
                 String string = "message!!" + message;
                 onHoldMessages.put(destination, string);
@@ -91,7 +84,6 @@ public class Server {
         }
     }
 
-
     public boolean isOnline(String matchUser) {
 
         return clientMap.get(matchUser).getClientSocket().isConnected();
@@ -102,30 +94,85 @@ public class Server {
         clientMap.remove(s);
     }
 
-    public void handleFirstMessage(String string){
+    public void handleFirstMessage(String string, Socket clientSocket) {
 
         String[] strings = string.split("#€");
 
-        if(strings[0].equals("login")){
+        if (strings[0].equals("login") && userService.authenticate(strings[1], strings[2])) {
 
-            if (userService.authenticate(strings[1], strings[2])){
+            ClientHandler clientHandler = new ClientHandler(clientSocket, this, string);
 
+            clientMap.put(strings[1], clientHandler);
 
-            }
+            executorService.submit(clientHandler);
 
+            directMessage(strings[1], "login#€success");
+
+            return;
         }
 
-        if(strings[0].equals("register")){
+        if (strings[0].equals("register") && userService.findByName(strings[1]) == null) {
 
+            User user = new User(strings[1], strings[2]);
 
+            userService.addUser(user);
+
+            ClientHandler clientHandler = new ClientHandler(clientSocket, this, string);
+
+            clientMap.put(strings[1], clientHandler);
+
+            executorService.submit(clientHandler);
+
+            directMessage(strings[1], "register#€success");
+
+            handleProfile(string, user);
+
+            return;
+
+        } else {
+
+            try {
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
+
+                if (strings[0].equals("login")) {
+                    out.write("login#€fail");
+                    out.flush();
+                }
+                if (strings[0].equals("register")) {
+                    out.write("register#€fail");
+                    out.flush();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void setUserService(UserService userService){
+    public void setUserService(UserService userService) {
 
         this.userService = userService;
     }
 
+    public void handleProfile(String string, User user){
+
+        Profile profile = new Profile(user);
+
+        String[] strings = string.split("#€");
+
+        profile.setAge(Integer.parseInt(strings[3]));
+
+        profile.setSexType(SexType.valueOf(strings[4]));
+
+        profile.setShoeSize(ShoeSize.valueOf(strings[5]));
+
+        profile.setBellyButton(BellyButton.valueOf(strings[6]));
+
+        profile.setSpiritAnimal(strings[7]);
+
+        profile.setBrowsType(BrowsType.valueOf(strings[8]));
+
+    }
 
 }
 
