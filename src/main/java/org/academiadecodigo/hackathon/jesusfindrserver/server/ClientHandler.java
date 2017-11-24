@@ -55,6 +55,10 @@ public class ClientHandler implements Runnable {
 
     public void messageHandler(String string) {
 
+        if (!string.contains("#€")){
+            sendMessage(string);
+        }
+
         String[] strings = string.split("#€");
 
         if (strings[0].equals("match")) {
@@ -64,11 +68,6 @@ public class ClientHandler implements Runnable {
             } else {
                 sendMessage("match#€notfound");
             }
-        }
-
-        if (strings[0].equals("message") && matchUser != null) {
-
-            sendMessage(strings[1]);
         }
 
         if (strings[0].equals("isMatchOnline")){

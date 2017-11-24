@@ -74,7 +74,7 @@ public class Server {
 
             } else {
 
-                String string = "message#€" + message + "\n";
+                String string = message + "\n";
                 onHoldMessages.put(destination, string);
 
             }
