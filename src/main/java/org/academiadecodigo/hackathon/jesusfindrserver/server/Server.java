@@ -1,6 +1,7 @@
 package org.academiadecodigo.hackathon.jesusfindrserver.server;
 
 import org.academiadecodigo.hackathon.jesusfindrserver.model.*;
+import org.academiadecodigo.hackathon.jesusfindrserver.services.matchmaking.JdbcMatchmakerService;
 import org.academiadecodigo.hackathon.jesusfindrserver.services.matchmaking.MatchmakerService;
 import org.academiadecodigo.hackathon.jesusfindrserver.services.matchmaking.MockMatchmakerService;
 import org.academiadecodigo.hackathon.jesusfindrserver.services.user.UserService;
@@ -35,7 +36,7 @@ public class Server {
         executorService = Executors.newFixedThreadPool(10);
         clientMap = new HashMap<>();
         onHoldMessages = new HashMap<>();
-        matchmakerService = new MockMatchmakerService(userService);
+        matchmakerService = new JdbcMatchmakerService();
 
     }
 
