@@ -35,7 +35,7 @@ public class Server {
         executorService = Executors.newFixedThreadPool(10);
         clientMap = new HashMap<>();
         onHoldMessages = new HashMap<>();
-        matchmakerService = new MockMatchmakerService();
+        matchmakerService = new MockMatchmakerService(userService);
 
     }
 
@@ -154,7 +154,7 @@ public class Server {
         this.userService = userService;
     }
 
-    public void handleProfile(String string, User user){
+    public void handleProfile(String string, User user) {
 
         Profile profile = new Profile(user);
 
@@ -171,6 +171,15 @@ public class Server {
         profile.setSpiritAnimal(strings[7]);
 
         profile.setBrowsType(BrowsType.valueOf(strings[8]));
+
+        boolean backHair = false;
+
+        if (strings[9].equals("true")) {
+
+            backHair = true;
+        }
+
+        profile.setBackHair(backHair);
 
     }
 
