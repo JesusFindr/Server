@@ -76,7 +76,7 @@ public class ClientHandler implements Runnable {
         }
 
         if (strings[0].equals("profile")) {
-            sendProfile(strings[1]);
+            sendProfile(matchUser);
         }
 
     }
