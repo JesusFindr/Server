@@ -113,20 +113,15 @@ public class JdbcMatchmakerService implements MatchmakerService {
             statement.setString(1, profile.getUser().getUsername());
             statement.setInt(2, profile.getAge());
             statement.setInt(3, profile.getImage());
-            statement.setInt(4, profile.getShoeSize())
+            statement.setInt(4, profile.getShoeSize().ordinal());
+            statement.setInt(5, profile.getBellyButton().ordinal());
+            statement.setString(6, profile.getSpiritAnimal());
+            statement.setInt(7, profile.getBrowsType().ordinal());
+            statement.setBoolean(8, profile.getBackHair());
 
-            ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next()) {
-                profile = new Profile(new User(user.getUsername()));
-                profile.setAge(resultSet.getInt("age"));
-                profile.setImage(resultSet.getInt("image"));
-                profile.setSexType(SexType.values()[resultSet.getInt("sex")]);
-                profile.setShoeSize(ShoeSize.values()[resultSet.getInt("shoe_size")]);
-                profile.setBellyButton(BellyButton.values()[resultSet.getInt("bellybutton")]);
-                profile.setSpiritAnimal(resultSet.getString("spirit_animal"));
-                profile.setBrowsType(BrowsType.values()[resultSet.getInt("brows_type")]);
-                profile.setBackHair(resultSet.getBoolean("back_hair"));
+            if (!statement.execute()) {
+                System.out.println("User adding failed");
             }
 
             statement.close();

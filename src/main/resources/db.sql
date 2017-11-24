@@ -13,7 +13,7 @@ CREATE TABLE `users_profiles` (
   `bellybutton` int(11) DEFAULT NULL,
   `spirit_animal` varchar(30) NOT NULL DEFAULT '',
   `brows_type` int(11) DEFAULT NULL,
-  `back_hair` int(3) DEFAULT NULL,
+  `back_hair` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`username`),
   CONSTRAINT `fk_foreignuser` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
