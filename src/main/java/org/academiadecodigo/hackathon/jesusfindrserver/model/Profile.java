@@ -7,7 +7,6 @@ package org.academiadecodigo.hackathon.jesusfindrserver.model;
 
 public class Profile {
     private User user;
-    private String realName;
     private int age;
     private SexType sexType;
     private int image;
@@ -41,10 +40,6 @@ public class Profile {
         this.backHair = backHair;
     }
 
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
     public void setAge(int age) {
         this.age = age;
     }
@@ -75,10 +70,6 @@ public class Profile {
 
     public boolean getBackHair() {
         return backHair;
-    }
-
-    public String getRealName() {
-        return realName;
     }
 
     public int getAge() {
