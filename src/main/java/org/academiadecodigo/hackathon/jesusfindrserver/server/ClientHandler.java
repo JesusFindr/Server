@@ -52,7 +52,7 @@ public class ClientHandler implements Runnable {
 
     public void messageHandler(String string) {
 
-        String[] strings = string.split("!!");
+        String[] strings = string.split("#€");
 
         if (strings[0].equals("match")) {
 

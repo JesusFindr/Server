@@ -1,5 +1,7 @@
 package org.academiadecodigo.hackathon.jesusfindrserver.server;
 
+import org.academiadecodigo.hackathon.jesusfindrserver.services.user.UserService;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,6 +23,8 @@ public class Server {
     private int portNumber;
     private ServerSocket serverSocket;
     private ExecutorService executorService;
+
+    private UserService userService;
 
     private Map<String, ClientHandler> clientMap;
 
@@ -46,6 +50,8 @@ public class Server {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                 String string = bufferedReader.readLine();
+
+                handleFirstMessage(string);
 
                 for (String s : onHoldMessages.keySet()){
 
@@ -94,6 +100,30 @@ public class Server {
     public void clientMapUpdate(String s) {
 
         clientMap.remove(s);
+    }
+
+    public void handleFirstMessage(String string){
+
+        String[] strings = string.split("#€");
+
+        if(strings[0].equals("login")){
+
+            if (userService.authenticate(strings[1], strings[2])){
+
+
+            }
+
+        }
+
+        if(strings[0].equals("register")){
+
+
+        }
+    }
+
+    public void setUserService(UserService userService){
+
+        this.userService = userService;
     }
 
 
