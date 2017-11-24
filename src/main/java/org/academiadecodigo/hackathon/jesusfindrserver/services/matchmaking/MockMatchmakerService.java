@@ -63,4 +63,7 @@ public class MockMatchmakerService {
         return profilesList.get(user.getUsername());
     }
 
+    public void addProfile(Profile profile) {
+        profilesList.put(profile.getUser().getUsername(), profile);
+    }
 }

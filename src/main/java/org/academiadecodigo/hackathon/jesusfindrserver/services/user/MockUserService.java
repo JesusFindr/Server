@@ -1,5 +1,6 @@
 package org.academiadecodigo.hackathon.jesusfindrserver.services.user;
 
+import org.academiadecodigo.hackathon.jesusfindrserver.model.Profile;
 import org.academiadecodigo.hackathon.jesusfindrserver.model.User;
 
 import java.util.*;
